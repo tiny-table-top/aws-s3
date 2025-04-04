@@ -3,6 +3,7 @@ pipeline {
         docker {
             image 'node:22.14.0'         // Official Node.js image
             args '--isolation=hyperv'    // Required for Windows containers
+            dockerHost 'tcp://localhost:2375'  // Critical for Windows
         }
     }
     stages {
