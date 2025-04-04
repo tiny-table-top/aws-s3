@@ -3,7 +3,6 @@ pipeline {
         docker {
             image 'node:22.14.0'         // Official Node.js image
             args '--isolation=hyperv'    // Required for Windows containers
-            label 'windows'              // Run on a Windows agent
         }
     }
     stages {
