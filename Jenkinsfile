@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:22.14.0-alpine'  // Uses official Node.js image
+            image 'node:22.14.0'  // Uses official Node.js image
         }
     }
     
