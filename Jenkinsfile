@@ -1,33 +1,43 @@
 pipeline {
     agent {
         docker {
-            image 'node:22.14.0'  // Uses official Node.js image
+            image 'node:22.14.0'         // Official Node.js image
+            args '--isolation=hyperv'    // Required for Windows containers
+            label 'windows'              // Run on a Windows agent
         }
     }
-    
     stages {
-        stage('Build') {
+        stage('Check Node & NPM') {
             steps {
-                sh 'npm install'
+                bat 'node --version'     // Use `bat` for Windows CMD
+                bat 'npm --version'
             }
         }
-        
-        stage('Test') {
+        stage('Install Dependencies') {
             steps {
-                sh 'npm test'
+                bat 'npm install'
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                bat 'npm test'
+            }
+        }
+        stage('Build App') {
+            steps {
+                bat 'npm run build'
             }
         }
     }
-
     post {
         always {
-            echo 'Pipeline completed - check logs for details'
+            echo 'Pipeline completed!'
         }
         success {
-            echo 'Build and tests passed successfully! ✅'
+            echo '✅ Success!'
         }
         failure {
-            echo 'Build or tests failed! ❌'
+            echo '❌ Failed! Check logs.'
         }
     }
 }
