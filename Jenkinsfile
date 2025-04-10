@@ -1,11 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:22-alpine'         // Official Node.js image
-            args '--isolation=hyperv'    // Required for Windows containers
-            dockerHost 'tcp://localhost:2375'  // Critical for Windows
-        }
-    }
+    
     stages {
         stage('Build') {
             agent {
