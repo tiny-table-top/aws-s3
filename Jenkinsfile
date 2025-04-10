@@ -40,16 +40,19 @@ pipeline {
         stage('Deploy') {
             agent {
                 docker {
-                    image 'amazon/aws-cli'
+                    image 'amazon/aws-cli:latest'
                     reuseNode true
                     args '--entrypoint=""'
                 }
             }
             steps {
-                sh '''
-                    aws --version
-                    aws s3 ls
-                '''
+                withCredentials([usernamePassword(credentialsId: 'my-aws-s3', passwordVariable: 'WS_SECRET_ACCESS_KEY', usernameVariable: 'WS_ACCESS_KEY_ID')]) {
+                    sh '''
+                        aws --version
+                        aws s3 ls
+                    '''
+                }
+                
             }
         }
             
